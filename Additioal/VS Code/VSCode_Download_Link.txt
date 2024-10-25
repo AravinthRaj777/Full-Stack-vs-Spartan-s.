@@ -1,0 +1,6 @@
+VS Code Download Link :
+https://code.visualstudio.com/download
+
+Click the link then our go to the VS code site...
+Next you are click the Windows10 version.
+Then Automatically Downloading
