@@ -8,8 +8,6 @@ function Login(){
            <input className="py-1 px-1 rounded-md outline-none" placeholder="Password" type="password" />
            <button className="bg-blue-500 px-5 py-1 rounded-lg text-white font-bold">Submit</button>
            </form>
-
-
         </div>
         </>
     )
