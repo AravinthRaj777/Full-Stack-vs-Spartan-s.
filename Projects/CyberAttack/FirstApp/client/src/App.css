@@ -1,6 +1,3 @@
-div{
-  background: red;
-}
-.App1{
-  background: white;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
