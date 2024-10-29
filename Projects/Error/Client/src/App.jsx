@@ -1,8 +1,11 @@
+import './App.css'
+import Login from './page/login'
 export default function App() {
   return (
    <>
-   <div>
-    <span className="text-stone-500 text-6 items-center justify-center">Loginpage</span>
+   <div className=" bg-gray-100 w-screen h-screen flex items-center justify-center">
+    <Login/>
+    
    </div>
    </>
   )
