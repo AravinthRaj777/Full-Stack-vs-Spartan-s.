@@ -5,11 +5,11 @@ export default {
   ],
   //content: [],
   theme: {
-    extend:// {
-     // fontFamily:{
-       // display:['Cinzel', 'serif']
-      }
-    },
+    extend:{}// {
+      //fontFamily:{
+        //display:['Cinzel', 'serif']
+      //}
+    //},
   },
   plugins: [],
 }
