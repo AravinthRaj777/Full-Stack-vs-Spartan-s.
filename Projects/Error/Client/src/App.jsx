@@ -1,10 +1,12 @@
 import './App.css'
-import Login from './page/login'
+import ChatInput from './page/login'
+//import ChatForm from './page/login'
+//import Login from './page/login'
 function App(){
   return(
     <>
     <div className="bg-gray-600 w-screen h-screen flex items-center justify-center">
-      <Login/>
+     <ChatInput/>
   
     </div>
     
