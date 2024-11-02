@@ -1,3 +1,5 @@
+//import koil form './image/moon.jpg'
+
 function Dark(){
     return (
         <> 
@@ -6,8 +8,8 @@ function Dark(){
             <div className="check">
                 <label form="toggle">
                     <div className="w-[550px] h-[550px] bg-black flex items-center justify-center">
-                        <img src="image/sun.jpg" alt=""/>
-                        <img src="image/moon.jpg" alt=""/>
+                       
+                        <img src={require('.image/sun.jpg')} height='200' width='200'/>
                    
 
                     </div>
