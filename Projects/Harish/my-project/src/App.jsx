@@ -1,14 +1,24 @@
 
 import './App.css'
+import Dark from './Page/Toggle.jsx'
+//import Toggle from './Page/Toggle'
 
 function App() {
   
 
   return (
     <>
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+     <div className=" w-[500px] h-[550px] bg-black flex items-center justify-center">
+
+
+
+
+
+
+
+
+      <Dark/>
+    </div>
      
     </>
   )
