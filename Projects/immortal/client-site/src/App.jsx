@@ -46,9 +46,9 @@ function TextToPDFConverter() {
         </h1>
         <p className="text-lg text-gray-700">Fast, Free, and secure File Conversion</p>
       </header>
-      <img src=""/>
-
-      <div className="flex flex-col items-center">
+      
+     
+      <div className=" flex flex-initial items-center ">
         <input
           type="file"
           accept=".txt"
@@ -66,14 +66,15 @@ function TextToPDFConverter() {
             Selected File: <strong>{selectedFile.name}</strong>
           </p>
         )}
-      </div>
-
-      <button
+         <button
         onClick={handleConvertToPDF}
-        className="mt-6 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300"
+        className=" bg-blue-600 font-bold rounded-xl text-white hover:bg-blue-700 transition duration-300 "
       >
         Convert to PDF
       </button>
+      </div>
+
+     
     </div>
   );
 }
