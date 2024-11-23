@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { jsPDF } from "jspdf";
+import { jsPDF } from "jspdf"; 
+import { MdCloudUpload, MdDelete} from 'react-icons/md';
+import { AiFillFileImage} from 'react-icons/ai';
+
+
 
 const TextToPdfConverter = () => {
   const [file, setFile] = useState(null);
@@ -106,6 +110,8 @@ const TextToPdfConverter = () => {
           onDragOver={handleDragOver}
           onClick={handleClick}
         >
+          <img src=""></img>
+          
           <input
             id="fileInput"
             type="file"
