@@ -1,19 +1,40 @@
 import React, { useState } from "react";
 import { jsPDF } from "jspdf";
-import { MdCloudUpload, MdDelete} from 'react-icons/md'
-import { AiFillFileImage} from 'react-icons/ai';
 
 const TextToPdfConverter = () => {
-  const [file, setFile, image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [fileName, setFileName] =useState("No selected file")
-//document.querySelector("#fileInput").click();
+  const [fileName, setFileName] = useState("No selected file");
+
+  // Handle file selection
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-    const file = e.target.files[0];
-    if (file) {
-      console.log("Selected file:", file);
+    const uploadedFile = e.target.files[0];
+    if (uploadedFile) {
+      setFile(uploadedFile);
+      setFileName(uploadedFile.name);
     }
+  };
+
+  // Handle drag over event
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  // Handle drop event
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const uploadedFile = e.dataTransfer.files[0];
+    if (uploadedFile) {
+      setFile(uploadedFile);
+      setFileName(uploadedFile.name);
+    }
+  };
+
+  // Trigger the file input dialog
+  const handleClick = () => {
+    document.getElementById("fileInput").click();
   };
 
   const convertToPDF = () => {
@@ -79,39 +100,39 @@ const TextToPdfConverter = () => {
         Convert Text File to PDF
       </h1>
       <main>
-      <form className="flex flex-col justify-center place-items-center border-2 border-dashed border-[#1475cf] h-[250px] w-[500px] cursor-pointer rounded-[25px]">
-     
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        className="input-field "
-        
-      />
-      <p> click to upload an image</p>
-     
-      </form>
+        <form
+          className="flex flex-col justify-center place-items-center border-2 border-dashed border-[#1475cf] h-[250px] w-[500px] cursor-pointer rounded-[25px] bg-white"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onClick={handleClick}
+        >
+          <input
+            id="fileInput"
+            type="file"
+            accept="text/plain"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <p>Drag & Drop a text file here or click to upload</p>
+          {file && <p className="mt-2">{fileName}</p>}
+        </form>
       </main>
-      <div className="">
-      <button
-        onClick={convertToPDF}
-        className={`px-4 py-2 text-white rounded-md w-full max-w-md ${
-          loading
-            ? "bg-blue-300 cursor-not-allowed"
-            : "bg-blue-500 hover:bg-blue-600"
-        }`}
-        disabled={loading}
-      >
-        {loading ? "Processing..." : "Convert to PDF"}
-      </button>
-      {loading && (
-        <div className="mt-4 w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-      )}
-
-      </div> 
-      
-     
-      
+      <div className="mt-4">
+        <button
+          onClick={convertToPDF}
+          className={`px-4 py-2 text-white rounded-md w-full max-w-md ${
+            loading
+              ? "bg-blue-300 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
+          disabled={loading}
+        >
+          {loading ? "Processing..." : "Convert to PDF"}
+        </button>
+        {loading && (
+          <div className="mt-4 w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+        )}
+      </div>
     </div>
   );
 };
