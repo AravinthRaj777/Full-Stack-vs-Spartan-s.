@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { jsPDF } from "jspdf"; 
-import { MdCloudUpload, MdDelete} from 'react-icons/md';
-import { AiFillFileImage} from 'react-icons/ai';
+import Typewriter from 'typewriter-effect';
+
+import { HiOutlineCloudUpload} from 'react-icons/hi';
+//import { AiFillFileImage} from 'react-icons/ai';
 
 
 
 const TextToPdfConverter = () => {
-  const [file, setFile] = useState(null);
+  const [file, setFile, image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState("No selected file");
 
@@ -100,46 +102,18 @@ const TextToPdfConverter = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
-      <h1 className="text-2xl font-bold text-blue-600 mb-2">
-        Convert Text File to PDF
-      </h1>
+      <header className="text-center mb-2">
+        <h1 className=" text-4xl font-bold text-blue-600 mb-2">
+          <Typewriter options={{autoStart:true, loop:true, strings:['Convert TxT to PdF Instantly']}}/>
+        </h1>
+        <p className="text-lg text-gray-700">Fast, Free, and Secure File Conversion</p>
+      </header>
       <main>
-        <form
-          className="flex flex-col justify-center place-items-center border-2 border-dashed border-[#1475cf] h-[250px] w-[500px] cursor-pointer rounded-[25px] bg-white"
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onClick={handleClick}
-        >
-          <img src=""></img>
-          
-          <input
-            id="fileInput"
-            type="file"
-            accept="text/plain"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-          <p>Drag & Drop a text file here or click to upload</p>
-          {file && <p className="mt-2">{fileName}</p>}
-        </form>
+        <form></form>
       </main>
-      <div className="mt-4">
-        <button
-          onClick={convertToPDF}
-          className={`px-4 py-2 text-white rounded-md w-full max-w-md ${
-            loading
-              ? "bg-blue-300 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
-          }`}
-          disabled={loading}
-        >
-          {loading ? "Processing..." : "Convert to PDF"}
-        </button>
-        {loading && (
-          <div className="mt-4 w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-        )}
-      </div>
     </div>
+    
+    
   );
 };
 
