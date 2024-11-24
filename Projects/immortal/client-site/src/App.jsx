@@ -1,25 +1,16 @@
 import React, { useState } from "react";
-import { jsPDF } from "jspdf"; 
-import Typewriter from 'typewriter-effect';
-
-import { HiOutlineCloudUpload} from 'react-icons/hi';
-//import { AiFillFileImage} from 'react-icons/ai';
-
-
+import { jsPDF } from "jspdf";
+import { HiOutlineCloudUpload } from "react-icons/hi";
+import { AiFillFileText, AiFillFileImage, AiFillFilePdf } from "react-icons/ai";
+import TypeWriter from 'typewriter-effect';
 
 const TextToPdfConverter = () => {
-  const [file, setFile, image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("No file selected");
+  const [fileType, setFileType] = useState("");
+  const [fileSize, setFileSize] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [fileName, setFileName] = useState("No selected file");
-
-  // Handle file selection
-  const handleFileChange = (e) => {
-    const uploadedFile = e.target.files[0];
-    if (uploadedFile) {
-      setFile(uploadedFile);
-      setFileName(uploadedFile.name);
-    }
-  };
 
   // Handle drag over event
   const handleDragOver = (e) => {
@@ -27,22 +18,64 @@ const TextToPdfConverter = () => {
     e.stopPropagation();
   };
 
-  // Handle drop event
+  // Handle file drop
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const uploadedFile = e.dataTransfer.files[0];
-    if (uploadedFile) {
-      setFile(uploadedFile);
-      setFileName(uploadedFile.name);
+    const droppedFile = e.dataTransfer.files[0];
+
+    if (droppedFile) {
+      // Validate the file type
+      if (droppedFile.type.includes("text")) {
+        setFile(droppedFile);
+        setFileName(droppedFile.name);
+        setFileSize((droppedFile.size / 1024).toFixed(2) + " KB");
+        setFileType(droppedFile.type);
+        setError("");
+      } else {
+        setError("Unsupported file type. Please upload a text file.");
+        setFile(null);
+        setFileName("No file selected");
+        setFileSize("");
+        setFileType("");
+      }
     }
   };
 
-  // Trigger the file input dialog
-  const handleClick = () => {
-    document.getElementById("fileInput").click();
+  // Handle file selection through input
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      if (selectedFile.type.includes("text")) {
+        setFile(selectedFile);
+        setFileName(selectedFile.name);
+        setFileSize((selectedFile.size / 1024).toFixed(2) + " KB");
+        setFileType(selectedFile.type);
+        setError("");
+      } else {
+        setError("Unsupported file type. Please upload a text file.");
+        setFile(null);
+        setFileName("No file selected");
+        setFileSize("");
+        setFileType("");
+      }
+    }
   };
 
+  // File type icon selector
+  const renderFileIcon = () => {
+    if (fileType.includes("text")) {
+      return <AiFillFileText size={60} className="text-gray-700" />;
+    } else if (fileType.includes("image")) {
+      return <AiFillFileImage size={60} className="text-gray-700" />;
+    } else if (fileType.includes("pdf")) {
+      return <AiFillFilePdf size={60} className="text-gray-700" />;
+    } else {
+      return <HiOutlineCloudUpload size={60} className="text-gray-700" />;
+    }
+  };
+
+  // Convert text to PDF
   const convertToPDF = () => {
     if (!file) {
       alert("Please upload a text file.");
@@ -58,7 +91,6 @@ const TextToPdfConverter = () => {
       // Initialize jsPDF
       const pdf = new jsPDF();
 
-      // Define margins and font properties
       const margin = 10;
       const pageHeight = pdf.internal.pageSize.getHeight();
       const pageWidth = pdf.internal.pageSize.getWidth();
@@ -69,12 +101,9 @@ const TextToPdfConverter = () => {
 
       pdf.setFontSize(fontSize);
 
-      // Split text into lines that fit the page width
       const lines = pdf.splitTextToSize(text, maxLineWidth);
-
       lines.forEach((line) => {
         if (y + lineHeight > pageHeight - margin) {
-          // If the text overflows the current page, add a new page
           pdf.addPage();
           y = margin;
         }
@@ -82,12 +111,11 @@ const TextToPdfConverter = () => {
         y += lineHeight;
       });
 
-      // Create a link to download the file without opening in a new tab
-      const pdfData = pdf.output("blob"); // Create a blob of the PDF data
+      const pdfData = pdf.output("blob");
       const link = document.createElement("a");
       link.href = URL.createObjectURL(pdfData);
-      link.download = "converted.pdf"; // Specify the file name
-      link.click(); // Trigger the download
+      link.download = "converted.pdf";
+      link.click();
 
       setLoading(false);
     };
@@ -101,19 +129,73 @@ const TextToPdfConverter = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
-      <header className="text-center mb-2">
-        <h1 className=" text-4xl font-bold text-blue-600 mb-2">
-          <Typewriter options={{autoStart:true, loop:true, strings:['Convert TxT to PdF Instantly']}}/>
+    <div className="min-h-screen flex flex-col items-center  bg-gray-100 py-10">
+      <header className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-blue-600 mb-2">
+          <TypeWriter options={{autoStart:true, loop:true, strings:['Convert txt to Pdf Instantly']}}/>
         </h1>
-        <p className="text-lg text-gray-700">Fast, Free, and Secure File Conversion</p>
+        <p className="text-lg text-gray-700">Fast,Free, and Secure File Conversion</p>
       </header>
-      <main>
-        <form></form>
-      </main>
+      
+
+      {/* Drag and Drop Box */}
+      <div
+        className="w-96 h-64 border-2 border-dashed border-blue-500 rounded-lg flex flex-col justify-center items-center cursor-pointer"
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        onClick={() => document.getElementById("fileInput").click()}
+      >
+        <input
+          type="file"
+          className="hidden"
+          id="fileInput"
+          accept=".txt"
+          onChange={handleFileChange}
+        />
+        {file ? renderFileIcon() : <HiOutlineCloudUpload size={60} />}
+        <p className="mt-2 text-sm text-gray-500">{fileName}</p>
+      </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="mt-4 p-4 bg-red-100 text-red-600 rounded-md">
+          {error}
+        </div>
+      )}
+
+      {/* File Details */}
+      {file && !error && (
+        <div className="mt-6 p-4 bg-white rounded-md shadow-md w-96">
+          <h2 className="font-semibold text-lg text-gray-800">File Details:</h2>
+          <ul className="list-disc pl-5 text-gray-700 mt-2">
+            <li>
+              <strong>File Name:</strong> {fileName}
+            </li>
+            <li>
+              <strong>File Size:</strong> {fileSize}
+            </li>
+          </ul>
+        </div>
+      )}
+
+      {/* Convert to PDF Button */}
+      <div className="mt-6">
+        <button
+          onClick={convertToPDF}
+          className={`px-4 py-2 text-white rounded-md w-full max-w-md ${
+            loading
+              ? "bg-blue-300 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
+          disabled={loading}
+        >
+          {loading ? "Processing..." : "Convert to PDF"}
+        </button>
+        {loading && (
+          <div className="mt-4 w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+        )}
+      </div>
     </div>
-    
-    
   );
 };
 
