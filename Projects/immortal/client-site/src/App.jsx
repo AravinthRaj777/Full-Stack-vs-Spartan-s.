@@ -130,17 +130,17 @@ const TextToPdfConverter = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center  bg-gray-100 py-10">
-      <header className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-blue-600 mb-2">
-          <TypeWriter options={{autoStart:true, loop:true, strings:['Convert txt to Pdf Instantly']}}/>
-        </h1>
-        <p className="text-lg text-gray-700">Fast,Free, and Secure File Conversion</p>
+      <header className="text-center mb-6">
+        <h1 className="text-3xl font-bold text-blue-600 mb-4">Convert txt to Pdf Instantly</h1>
+        <p className="text-lg text-gray-500 mb-2 ">Fast, free, and secure file conversion</p>
       </header>
+      
+     
       
 
       {/* Drag and Drop Box */}
       <div
-        className="w-96 h-64 border-2 border-dashed border-blue-500 rounded-lg flex flex-col justify-center items-center cursor-pointer"
+        className="w-96 h-64 border-2 border-dashed border-blue-500 rounded-xl flex flex-col justify-center items-center cursor-pointer"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         onClick={() => document.getElementById("fileInput").click()}
@@ -195,6 +195,23 @@ const TextToPdfConverter = () => {
           <div className="mt-4 w-10 h-10 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
         )}
       </div>
+      <section className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12">
+        
+      <div className="feature-card text-center p-6 bg-white rounded-lg shadow-lg">
+        <h3 className="text-xl font-semibold text-blue-600 mb-2">Fast Conversion</h3>
+          <p className="text-gray-600">Convert your files in seconds, no wait time.</p>      
+      </div>
+      <div className="feature-card text-center p-6 bg-white rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-blue-600 mb-2">Free & Secure</h3>
+          <p className="text-gray-600">No sign-up, 100% privacy guaranteed.</p>
+      </div>
+      <div className="feature-card text-center p-6 bg-white rounded-lg shadow-lg">
+          <h3 className="text-xl font-semibold text-blue-600 mb-2">Easy to Use</h3>
+          <p className="text-gray-600">Just upload your txt file and click convert!</p>
+      </div>
+
+
+      </section>
     </div>
   );
 };
