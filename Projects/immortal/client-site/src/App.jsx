@@ -174,11 +174,11 @@ const TextToPdfConverter = () => {
           {error}
         </div>
       )}
-      <div className=" bg-slate-200">
-        <p className=" mt-2 text-sm text-gray-600">
+      <div className="">
+        <p className=" mt-2 font-bold text-sm text-gray-600">
           File Name: {file ? file.name : "upload file"}
         </p>
-        <p className=" mt-1 text-sm text-gray-600">
+        <p className=" mt-1 text-sm font-bold text-gray-600">
           File Size : {file ? `${(file.size / 1024).toFixed(2)} KB`: "1.23KB"}
         </p>
       </div>
