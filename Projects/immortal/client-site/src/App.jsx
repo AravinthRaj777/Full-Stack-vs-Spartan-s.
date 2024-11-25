@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
 import { HiOutlineCloudUpload } from "react-icons/hi";
 import { AiFillFileText, AiFillFileImage, AiFillFilePdf } from "react-icons/ai";
@@ -6,11 +6,17 @@ import TypeWriter from 'typewriter-effect';
 
 const TextToPdfConverter = () => {
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("No file selected");
+  const [fileName, setFileName] = useState("Drag and Drop File");
   const [fileType, setFileType] = useState("");
   const [fileSize, setFileSize] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showAnimated, setShowAnimated] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowAnimated(false), 5000); //change to static text after 5 seconds
+    return () => clearTimeout(timer);
+  }, []);
 
   // Handle drag over event
   const handleDragOver = (e) => {
@@ -35,7 +41,7 @@ const TextToPdfConverter = () => {
       } else {
         setError("Unsupported file type. Please upload a text file.");
         setFile(null);
-        setFileName("No file selected");
+        setFileName("Drag and Drop File");
         setFileSize("");
         setFileType("");
       }
@@ -55,7 +61,7 @@ const TextToPdfConverter = () => {
       } else {
         setError("Unsupported file type. Please upload a text file.");
         setFile(null);
-        setFileName("No file selected");
+        setFileName("Drag and Drop File");
         setFileSize("");
         setFileType("");
       }
@@ -130,9 +136,15 @@ const TextToPdfConverter = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center  bg-gray-100 py-10">
-      <header className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-blue-600 mb-4">Convert txt to Pdf Instantly</h1>
-        <p className="text-lg text-gray-500 mb-2 ">Fast, free, and secure file conversion</p>
+      <header className="text-center mb-4">
+        <h1 className="text-3xl font-bold text-blue-600 mb-2">
+          {showAnimated ? (
+            <TypeWriter options={{ autoStart: true, loop: true, strings:['Convert Txt to Pdf File']}}/>
+          ) : (
+            'Convert Txt to Pdf File'
+          )}
+        </h1>
+        <p className="text-lg text-gray-500 mb-1">Fast, free, and secure file conversion</p>
       </header>
       
      
@@ -140,7 +152,7 @@ const TextToPdfConverter = () => {
 
       {/* Drag and Drop Box */}
       <div
-        className="w-96 h-64 border-2 border-dashed border-blue-500 rounded-xl flex flex-col justify-center items-center cursor-pointer"
+        className="w-80 h-40 border-2 border-dashed border-blue-500 rounded-3xl flex flex-col justify-center items-center cursor-pointer"
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         onClick={() => document.getElementById("fileInput").click()}
@@ -162,24 +174,17 @@ const TextToPdfConverter = () => {
           {error}
         </div>
       )}
-
-      {/* File Details */}
-      {file && !error && (
-        <div className="mt-6 p-4 bg-white rounded-md shadow-md w-96">
-          <h2 className="font-semibold text-lg text-gray-800">File Details:</h2>
-          <ul className="list-disc pl-5 text-gray-700 mt-2">
-            <li>
-              <strong>File Name:</strong> {fileName}
-            </li>
-            <li>
-              <strong>File Size:</strong> {fileSize}
-            </li>
-          </ul>
-        </div>
-      )}
-
+      <div className=" bg-slate-200">
+        <p className=" mt-2 text-sm text-gray-600">
+          File Name: {file ? file.name : "upload file"}
+        </p>
+        <p className=" mt-1 text-sm text-gray-600">
+          File Size : {file ? `${(file.size / 1024).toFixed(2)} KB`: "1.23KB"}
+        </p>
+      </div>
+     
       {/* Convert to PDF Button */}
-      <div className="mt-6">
+      <div className="mt-5">
         <button
           onClick={convertToPDF}
           className={`px-4 py-2 text-white rounded-md w-full max-w-md ${
@@ -197,15 +202,15 @@ const TextToPdfConverter = () => {
       </div>
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12">
         
-      <div className="feature-card text-center p-6 bg-white rounded-lg shadow-lg">
+      <div className="feature-card text-center p-6 bg-white rounded-lg shadow-lg mt-6 transform transition-all hover:-translate-y-2">
         <h3 className="text-xl font-semibold text-blue-600 mb-2">Fast Conversion</h3>
           <p className="text-gray-600">Convert your files in seconds, no wait time.</p>      
       </div>
-      <div className="feature-card text-center p-6 bg-white rounded-lg shadow-lg">
+      <div className="feature-card text-center p-6 bg-white rounded-lg shadow-lg mt-6 transform transition-all hover:-translate-y-2">
           <h3 className="text-xl font-semibold text-blue-600 mb-2">Free & Secure</h3>
           <p className="text-gray-600">No sign-up, 100% privacy guaranteed.</p>
       </div>
-      <div className="feature-card text-center p-6 bg-white rounded-lg shadow-lg">
+      <div className="feature-card text-center p-6 bg-white rounded-lg shadow-lg mt-6 transform transition-all hover:-translate-y-2">
           <h3 className="text-xl font-semibold text-blue-600 mb-2">Easy to Use</h3>
           <p className="text-gray-600">Just upload your txt file and click convert!</p>
       </div>
